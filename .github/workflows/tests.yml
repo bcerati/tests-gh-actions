@@ -1,0 +1,26 @@
+on:
+  push:
+    branches:
+      - master
+  pull_request: {}
+  workflow_dispatch: {}
+
+jobs:
+  memomatrix_integration:
+    name: Memomatrix integration tests
+    runs-on: ubuntu-latest
+    env:
+      XDEBUG_MODE: off
+    services:
+      auth_php:
+        image: nginx:latest
+        options: >-
+          --health-cmd="curl --fail http://localhost || exit 1"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Execute auth migration inside auth_php container
+        run: docker exec auth_php ls -al
