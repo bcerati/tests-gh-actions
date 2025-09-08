@@ -23,4 +23,4 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Execute auth migration inside auth_php container
-        run: docker exec auth_php ls -al
+        run: docker exec ${{ job.services.auth_php.id }} ls -al
